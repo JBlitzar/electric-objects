@@ -6,6 +6,8 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
@@ -17,7 +19,13 @@ public class MainActivity extends AppCompatActivity {
         WebView webView = findViewById(R.id.webView);
         webView.setWebViewClient(new WebViewClient());
         webView.getSettings().setJavaScriptEnabled(true);
+        Toast.makeText(this, "Loading URL", Toast.LENGTH_SHORT).show();
+        WebView.setWebContentsDebuggingEnabled(true);
+
+
         webView.loadUrl("https://jblitzar.github.io/electric-objects");
+
+
     }
 
     @Override
