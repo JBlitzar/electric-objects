@@ -1,14 +1,20 @@
 package com.dan.eo1;
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.http.SslError;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.webkit.SslErrorHandler;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 public class MainActivity extends AppCompatActivity {
     @Override
@@ -17,38 +23,56 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         WebView webView = findViewById(R.id.webView);
+        if (webView == null) {
+            Log.e("WebView", "WebView is null! Check activity_main.xml");
+            return;
+        }
         webView.setWebViewClient(new WebViewClient());
         webView.getSettings().setJavaScriptEnabled(true);
         Toast.makeText(this, "Loading URL", Toast.LENGTH_SHORT).show();
         WebView.setWebContentsDebuggingEnabled(true);
+//        webView.setWebViewClient(new WebViewClient() {
+//            @Override
+//            public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+//                handler.proceed(); // Ignore SSL errors
+//            }
+//        });
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.INTERNET)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.INTERNET}, 1);
+        }
+
+
+
+
 
 
         webView.loadUrl("https://jblitzar.github.io/electric-objects");
 
 
     }
-
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
+    public boolean dispatchKeyEvent(KeyEvent event) {
         if (event.getAction() == KeyEvent.ACTION_DOWN) {
-            Log.d("KeyPress", "Key Code: " + keyCode);
+            Log.d("KeyPress", "Key Code: " + event.getKeyCode());
             switch (event.getKeyCode()) {
                 case KeyEvent.KEYCODE_C:
-                    // Open settings when "C" is pressed
                     openSettings();
                     return true;
 
                 case KeyEvent.KEYCODE_H:
-                    // Go to the home screen when "H" is pressed
                     goToHomeScreen();
                     return true;
 
                 default:
-                    return super.onKeyDown(keyCode, event);
+                    break;
             }
         }
-        return super.onKeyDown(keyCode, event);
+        return super.dispatchKeyEvent(event); // Pass remaining events to WebView
     }
+
+
+
 
     private void openSettings() {
         Intent intent = new Intent(Settings.ACTION_SETTINGS);
