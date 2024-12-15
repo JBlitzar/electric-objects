@@ -11,6 +11,6 @@ public class MainActivity extends AppCompatActivity {
         WebView webView = new WebView(this);
         setContentView(webView);
         webView.getSettings().setJavaScriptEnabled(true);
-        webView.loadUrl("https://your-website.com");
+        webView.loadUrl("https://jblitzar.github.io/electric-objects/");
     }
 }
