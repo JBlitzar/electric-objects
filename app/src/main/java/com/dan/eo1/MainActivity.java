@@ -26,6 +26,13 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
             return true;
         }
+        if (keyCode == KeyEvent.KEYCODE_H) {
+            Intent homeIntent = new Intent(Intent.ACTION_MAIN);
+            homeIntent.addCategory(Intent.CATEGORY_HOME);
+            homeIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(homeIntent);
+            return true;
+        }
 
         return super.onKeyDown(keyCode, event);
     }
