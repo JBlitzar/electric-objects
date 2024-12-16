@@ -15,6 +15,7 @@ import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -177,6 +178,40 @@ public class MainActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         handler.removeCallbacksAndMessages(null);
+    }
+    @Override
+    public boolean dispatchKeyEvent(KeyEvent event) {
+        if (event.getAction() == KeyEvent.ACTION_DOWN) {
+            Log.d("KeyPress", "Key Code: " + event.getKeyCode());
+            switch (event.getKeyCode()) {
+                case KeyEvent.KEYCODE_S:
+                    openSettings();
+                    return true;
+
+                case KeyEvent.KEYCODE_H:
+                    goToHomeScreen();
+                    return true;
+
+                default:
+                    break;
+            }
+        }
+        return super.dispatchKeyEvent(event); // Pass remaining events to WebView
+    }
+
+
+
+
+    private void openSettings() {
+        Intent intent = new Intent(Settings.ACTION_SETTINGS);
+        startActivity(intent);
+    }
+
+    private void goToHomeScreen() {
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.addCategory(Intent.CATEGORY_HOME);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 
     @SuppressLint("InvalidWakeLockTag")
