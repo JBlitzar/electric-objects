@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
         }
         webView.setWebViewClient(new WebViewClient());
         webView.getSettings().setJavaScriptEnabled(true);
+        webView.getSettings().setDomStorageEnabled(true);
         Toast.makeText(this, "Loading URL", Toast.LENGTH_SHORT).show();
         WebView.setWebContentsDebuggingEnabled(true);
 //        webView.setWebViewClient(new WebViewClient() {
@@ -49,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-
+        Toast.makeText(this, "About to loadUrl...", Toast.LENGTH_SHORT).show();
 
 
         webView.loadUrl("https://jblitzar.github.io/electric-objects");
